@@ -1,0 +1,2 @@
+class AddCoordinatesToMap < ApplicationRecord
+end
