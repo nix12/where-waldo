@@ -55,20 +55,31 @@ const removeTargetCircle = () => {
 const createTarget = () => {
 	const target = document.createElement('div');
 	target.classList.add('target');
-	// target.style.height = '9%';
-	// target.style.width = '4%';
-	// target.style.backgroundColor = 'red';
-	// target.style.position = 'absolute';
-	target.style.top = '32%';
-	target.style.left = '51%';
-	// target.style.zIndex = 400;
+	
+	const xhr = new XMLHttpRequest();
+	const img = document.getElementsByTagName('img');
+	const id = img[0].getAttribute('id');
+
+	xhr.open('GET', '/maps/' + id + '.json');
+	xhr.setRequestHeader('Content-Type', 'application/json');
+	xhr.onload = function() {
+		const data = JSON.parse(this.responseText);
+			if (xhr.status === 200) {
+				target.style.top = data['y_coordinate'] + '%';
+				target.style.left = data['x_coordinate'] + '%';
+			}
+			else if (xhr.status !== 200) {
+					console.log('Request failed.  Returned status of ' + xhr.status);
+			}
+	};
+	auth_token = document.head.querySelector("[name=csrf-token]").content;
+	xhr.send(encodeURI('&authenticity_token=' + auth_token));	
 
 	return target;
 }
 
 document.addEventListener("turbolinks:load", () => {
 	const display = document.querySelector('.display');
-	const container = document.querySelector('.container');
 	const target = display.appendChild(createTarget());
 
 	display.addEventListener('mousedown', (event) => {
@@ -80,12 +91,18 @@ document.addEventListener("turbolinks:load", () => {
 	});
 
 	target.addEventListener('click', () => {
-		container.appendChild(createBackdrop());
-		container.appendChild(createModal());
+		display.appendChild(createBackdrop());
+		display.appendChild(createModal());
 	});
-        
-	container.addEventListener('click', () => {
-		display.removeChild(removeBackdrop());
-		display.removeChild(removeModal());
-	});
+	
+	setInterval(() => {
+		if (document.querySelector('.backdrop')) {
+			const backdrop = document.querySelector('.backdrop');
+
+			backdrop.addEventListener('mousedown', () => {
+				display.removeChild(removeBackdrop());
+				display.removeChild(removeModal());
+			}, { once: true });
+		}
+	}, 500);
 });

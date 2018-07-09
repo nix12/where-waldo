@@ -10,20 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180705105540) do
-
-  create_table "add_coordinates_to_maps", force: :cascade do |t|
-    t.integer "x_coordinate"
-    t.integer "y_coordinate"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+ActiveRecord::Schema.define(version: 20180709195908) do
 
   create_table "maps", force: :cascade do |t|
-    t.boolean "target_clicked", default: false
     t.string "image_name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "x_coordinate"
+    t.integer "y_coordinate"
   end
 
 end
