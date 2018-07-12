@@ -1,0 +1,135 @@
+/* line 5, /home/linuxbox/Odin_Project/5_Javascript_jQuery/wheres-waldo/app/assets/stylesheets/maps.scss */
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+/* line 11, /home/linuxbox/Odin_Project/5_Javascript_jQuery/wheres-waldo/app/assets/stylesheets/maps.scss */
+.container {
+  height: 100%;
+  width: 100%;
+}
+/* line 15, /home/linuxbox/Odin_Project/5_Javascript_jQuery/wheres-waldo/app/assets/stylesheets/maps.scss */
+.container .maps {
+  height: 25%;
+  width: 100%;
+  display: flex;
+  flex-flow: row;
+}
+/* line 21, /home/linuxbox/Odin_Project/5_Javascript_jQuery/wheres-waldo/app/assets/stylesheets/maps.scss */
+.container .maps .map {
+  display: flex;
+  flex: 1 1 0;
+  justify-content: space-evenly;
+  margin: 5px;
+  padding: 0;
+  border: 1px solid black;
+  box-shadow: 5px 5px 5px grey;
+}
+/* line 32, /home/linuxbox/Odin_Project/5_Javascript_jQuery/wheres-waldo/app/assets/stylesheets/maps.scss */
+.container section {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* line 39, /home/linuxbox/Odin_Project/5_Javascript_jQuery/wheres-waldo/app/assets/stylesheets/maps.scss */
+.container .display {
+  position: fixed;
+  left: 10%;
+  top: 15%;
+  width: 80%;
+  box-shadow: 5px 5px 5px gray;
+}
+
+/* line 48, /home/linuxbox/Odin_Project/5_Javascript_jQuery/wheres-waldo/app/assets/stylesheets/maps.scss */
+#targetCircle {
+  border: 3px solid black;
+  border-radius: 100%;
+  height: 50px;
+  width: 50px;
+  z-index: 200;
+}
+
+/* line 56, /home/linuxbox/Odin_Project/5_Javascript_jQuery/wheres-waldo/app/assets/stylesheets/maps.scss */
+.target {
+  background-color: transparent;
+  height: 9%;
+  width: 4%;
+  position: absolute;
+  z-index: 400;
+}
+
+/* line 64, /home/linuxbox/Odin_Project/5_Javascript_jQuery/wheres-waldo/app/assets/stylesheets/maps.scss */
+.modal {
+  position: fixed;
+  z-index: 500;
+  background-color: white;
+  width: 70%;
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 1px black;
+  padding: 16px;
+  left: 15%;
+  top: 30%;
+  box-sizing: border-box;
+  transition: all 0.3s ease-out;
+  display: flex;
+  align-items: center;
+  flex-flow: column;
+}
+/* line 80, /home/linuxbox/Odin_Project/5_Javascript_jQuery/wheres-waldo/app/assets/stylesheets/maps.scss */
+.modal a {
+  text-align: center;
+  margin: 5px 0;
+}
+
+/* line 86, /home/linuxbox/Odin_Project/5_Javascript_jQuery/wheres-waldo/app/assets/stylesheets/maps.scss */
+.backdrop {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 100;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* line 96, /home/linuxbox/Odin_Project/5_Javascript_jQuery/wheres-waldo/app/assets/stylesheets/maps.scss */
+table {
+  border-collapse: collapse;
+  width: 50%;
+  text-align: center;
+}
+/* line 101, /home/linuxbox/Odin_Project/5_Javascript_jQuery/wheres-waldo/app/assets/stylesheets/maps.scss */
+table th, table td {
+  border-bottom: 1px solid black;
+}
+/* line 105, /home/linuxbox/Odin_Project/5_Javascript_jQuery/wheres-waldo/app/assets/stylesheets/maps.scss */
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* line 110, /home/linuxbox/Odin_Project/5_Javascript_jQuery/wheres-waldo/app/assets/stylesheets/maps.scss */
+.links {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-around;
+  width: 50%;
+}
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+
+
+ */
+
