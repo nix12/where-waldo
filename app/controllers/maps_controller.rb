@@ -9,7 +9,6 @@ class MapsController < ApplicationController
     respond_to do |format|
       format.html
       format.json { render json: @map }
-      format.js { render :show }
     end
   end
 end

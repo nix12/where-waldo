@@ -11,6 +11,29 @@ const removeBackdrop = () => {
 	return backdrop;
 }
 
+const sendScore = (name, time) => {
+	const img = document.getElementsByTagName('img');
+	const id = img[0].getAttribute('id');
+	
+	const data = {
+		score: {
+			name: name,
+			time: time
+		}
+	}
+
+	fetch('/maps/' + id + '/scores', {
+		method: 'POST',
+		body: JSON.stringify(data),
+		headers: {
+			'Content-Type': 'application/json',
+			'X-CSRF-Token': document.head.querySelector("[name=csrf-token]").content,
+		},
+		credentials: 'same-origin'
+	})
+	.catch(error => console.log(error))
+}
+
 const createModal = () => {
 	const modal = document.createElement('div');
 	modal.classList.add('modal');
@@ -21,10 +44,19 @@ const createModal = () => {
 	
 	const found = document.createElement('h3');	
 	found.innerHTML = 'You Found Waldo';
-	found.style.textAlign = 'center';		
+	found.style.textAlign = 'center';	
+
+	const enterName = document.createElement('input');
+	enterName.setAttribute('type', 'text');
+	enterName.placeholder = 'Enter Name';
+
+	const submit = document.createElement('input');
+	submit.setAttribute('type', 'submit');
 
 	modal.appendChild(congrats);
 	modal.appendChild(found);
+	modal.appendChild(enterName);
+	modal.appendChild(submit);
 
 	return modal;
 }
@@ -56,53 +88,98 @@ const createTarget = () => {
 	const target = document.createElement('div');
 	target.classList.add('target');
 	
-	const xhr = new XMLHttpRequest();
 	const img = document.getElementsByTagName('img');
 	const id = img[0].getAttribute('id');
 
-	xhr.open('GET', '/maps/' + id + '.json');
-	xhr.setRequestHeader('Content-Type', 'application/json');
-	xhr.onload = function() {
-		const data = JSON.parse(this.responseText);
-			if (xhr.status === 200) {
-				target.style.top = data['y_coordinate'] + '%';
-				target.style.left = data['x_coordinate'] + '%';
-			}
-			else if (xhr.status !== 200) {
-					console.log('Request failed.  Returned status of ' + xhr.status);
-			}
-	};
-	auth_token = document.head.querySelector("[name=csrf-token]").content;
-	xhr.send(encodeURI('&authenticity_token=' + auth_token));	
+	fetch('/maps/' + id + '.json')
+		.then(response => {
+			return response.json();
+		})
+		.then(response => {
+			target.style.top = response.y_coordinate + '%';
+			target.style.left = response.x_coordinate + '%';
+		})
 
 	return target;
 }
 
+const calculateTime = (startTime, endTime) => {
+	const modal = document.querySelector('.modal');
+	const img = document.getElementsByTagName('img');
+	const id = img[0].getAttribute('id');
+
+	const score = document.createElement('p');
+	score.style.textAlign = 'center';
+	score.style.fontSize = '16px';
+
+	const seconds = (endTime - startTime) / 1000
+	score.innerHTML = 'Your time is ' + seconds.toFixed(2) + ' seconds';
+
+	const toIndex = document.createElement('a');
+	toIndex.setAttribute('href', '/');
+	toIndex.innerHTML = 'Back to Index';
+
+	const toScores = document.createElement('a');
+	toScores.setAttribute('href', '/maps/' + id + '/scores');
+	toScores.innerHTML = 'View Top Scores';
+
+	modal.appendChild(score);
+	modal.appendChild(toIndex);
+	modal.appendChild(toScores);
+
+	return seconds;
+}
+
 document.addEventListener("turbolinks:load", () => {
 	const display = document.querySelector('.display');
-	const target = display.appendChild(createTarget());
 
-	display.addEventListener('mousedown', (event) => {
-		display.appendChild(createTargetCircle(event));
-	});
+	if (display) {
+		const target = display.appendChild(createTarget());
+		let startTime = Date.now();
+		let endTime;
 
-	display.addEventListener('mouseup', () => {			
-		display.removeChild(removeTargetCircle());
-	});
+		display.addEventListener('mousedown', (event) => {
+			display.appendChild(createTargetCircle(event));
+		});
 
-	target.addEventListener('click', () => {
-		display.appendChild(createBackdrop());
-		display.appendChild(createModal());
-	});
-	
-	setInterval(() => {
-		if (document.querySelector('.backdrop')) {
-			const backdrop = document.querySelector('.backdrop');
+		display.addEventListener('mouseup', () => {			
+			display.removeChild(removeTargetCircle());
+		}, { once: true });
 
-			backdrop.addEventListener('mousedown', () => {
-				display.removeChild(removeBackdrop());
-				display.removeChild(removeModal());
-			}, { once: true });
-		}
-	}, 500);
+		target.addEventListener('click', () => {
+			endTime = Date.now();
+			display.appendChild(createBackdrop());
+			display.appendChild(createModal());
+			const score = calculateTime(startTime, endTime);
+
+			if (document.querySelector('input[type=submit]')) {
+				const img = document.getElementsByTagName('img');
+				const id = img[0].getAttribute('id');
+				const submit = document.querySelector('input[type=submit]');
+				const name = document.querySelector('input[type=text]');
+
+				
+				
+				submit.addEventListener('click', () => {
+					console.log(name);
+					sendScore(name.value, score.toFixed(2));
+					window.location.href = '/maps/' + id + '/scores';
+				})
+			}
+		});
+		
+		setInterval(() => {
+			if (document.querySelector('.backdrop')) {
+				const backdrop = document.querySelector('.backdrop');
+
+				backdrop.addEventListener('mousedown', () => {
+					display.removeChild(removeBackdrop());
+					display.removeChild(removeModal());
+					startTime = Date.now();
+				}, { once: true });
+			}
+
+			
+		}, 500);
+	}
 });

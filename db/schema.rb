@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180709195908) do
+ActiveRecord::Schema.define(version: 20180711015605) do
 
   create_table "maps", force: :cascade do |t|
     t.string "image_name"
@@ -18,6 +18,14 @@ ActiveRecord::Schema.define(version: 20180709195908) do
     t.datetime "updated_at", null: false
     t.integer "x_coordinate"
     t.integer "y_coordinate"
+  end
+
+  create_table "scores", force: :cascade do |t|
+    t.string "name"
+    t.float "time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "map_id"
   end
 
 end
