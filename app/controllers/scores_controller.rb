@@ -15,6 +15,6 @@ class ScoresController < ApplicationController
   
   def index
     @map = Map.find(params[:map_id])
-    @scores = @map.scores.all.order(time: :desc).limit(50)
+    @scores = @map.scores.all.order(time: :asc).limit(50)
   end
 end

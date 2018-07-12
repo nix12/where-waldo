@@ -115,17 +115,17 @@ const calculateTime = (startTime, endTime) => {
 	const seconds = (endTime - startTime) / 1000
 	score.innerHTML = 'Your time is ' + seconds.toFixed(2) + ' seconds';
 
-	const toIndex = document.createElement('a');
-	toIndex.setAttribute('href', '/');
-	toIndex.innerHTML = 'Back to Index';
+	// const toIndex = document.createElement('a');
+	// toIndex.setAttribute('href', '/');
+	// toIndex.innerHTML = 'Back to Index';
 
-	const toScores = document.createElement('a');
-	toScores.setAttribute('href', '/maps/' + id + '/scores');
-	toScores.innerHTML = 'View Top Scores';
+	// const toScores = document.createElement('a');
+	// toScores.setAttribute('href', '/maps/' + id + '/scores');
+	// toScores.innerHTML = 'View Top Scores';
 
 	modal.appendChild(score);
-	modal.appendChild(toIndex);
-	modal.appendChild(toScores);
+	// modal.appendChild(toIndex);
+	// modal.appendChild(toScores);
 
 	return seconds;
 }

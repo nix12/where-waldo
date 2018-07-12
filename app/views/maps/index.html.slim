@@ -1,7 +1,10 @@
 .container
 	.maps
 		- @maps.each do |map|
-			= link_to map do
-				= image_tag map.image_name, class: 'map'
+			.map
+				= link_to map do
+					= image_tag map.image_name, height: "100%", width: "100%;"
 
+	section
+		h1 Select a map from above to play
 
