@@ -105,8 +105,6 @@ const createTarget = () => {
 
 const calculateTime = (startTime, endTime) => {
 	const modal = document.querySelector('.modal');
-	const img = document.getElementsByTagName('img');
-	const id = img[0].getAttribute('id');
 
 	const score = document.createElement('p');
 	score.style.textAlign = 'center';
@@ -115,17 +113,7 @@ const calculateTime = (startTime, endTime) => {
 	const seconds = (endTime - startTime) / 1000
 	score.innerHTML = 'Your time is ' + seconds.toFixed(2) + ' seconds';
 
-	// const toIndex = document.createElement('a');
-	// toIndex.setAttribute('href', '/');
-	// toIndex.innerHTML = 'Back to Index';
-
-	// const toScores = document.createElement('a');
-	// toScores.setAttribute('href', '/maps/' + id + '/scores');
-	// toScores.innerHTML = 'View Top Scores';
-
 	modal.appendChild(score);
-	// modal.appendChild(toIndex);
-	// modal.appendChild(toScores);
 
 	return seconds;
 }
@@ -159,9 +147,7 @@ document.addEventListener("turbolinks:load", () => {
 				const name = document.querySelector('input[type=text]');
 
 				
-				
 				submit.addEventListener('click', () => {
-					console.log(name);
 					sendScore(name.value, score.toFixed(2));
 					window.location.href = '/maps/' + id + '/scores';
 				})
