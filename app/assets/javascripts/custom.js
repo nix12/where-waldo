@@ -28,6 +28,7 @@ const sendScore = (name, time) => {
 		headers: {
 			'Content-Type': 'application/json',
 			'X-CSRF-Token': document.head.querySelector("[name=csrf-token]").content,
+			'X-Requested-With': 'XMLHttpRequest'
 		},
 		credentials: 'same-origin'
 	})
