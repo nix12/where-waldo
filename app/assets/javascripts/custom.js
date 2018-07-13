@@ -145,11 +145,13 @@ document.addEventListener("turbolinks:load", () => {
 				const id = img[0].getAttribute('id');
 				const submit = document.querySelector('input[type=submit]');
 				const name = document.querySelector('input[type=text]');
-
-				
+	
 				submit.addEventListener('click', () => {
 					sendScore(name.value, score.toFixed(2));
-					window.location.href = '/maps/' + id + '/scores';
+					
+					setInterval(() => {
+						window.location.href = '/maps/' + id + '/scores';
+					}, 1000)
 				})
 			}
 		});
@@ -164,8 +166,6 @@ document.addEventListener("turbolinks:load", () => {
 					startTime = Date.now();
 				}, { once: true });
 			}
-
-			
 		}, 500);
 	}
 });
