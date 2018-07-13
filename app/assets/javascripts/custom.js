@@ -148,10 +148,7 @@ document.addEventListener("turbolinks:load", () => {
 	
 				submit.addEventListener('click', () => {
 					sendScore(name.value, score.toFixed(2));
-					
-					setInterval(() => {
-						window.location.href = '/maps/' + id + '/scores';
-					}, 1000)
+					window.location.href = '/maps/' + id + '/scores';
 				})
 			}
 		});
