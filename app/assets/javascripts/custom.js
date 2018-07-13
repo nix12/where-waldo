@@ -32,6 +32,7 @@ const sendScore = (name, time) => {
 		},
 		credentials: 'same-origin'
 	})
+	.catch(error => console.log(error))
 }
 
 const createModal = () => {
