@@ -12,6 +12,7 @@ const removeBackdrop = () => {
 }
 
 const sendScore = (name, time) => {
+	// const xhr = new XMLHttpRequest();
 	const img = document.getElementsByTagName('img');
 	const id = img[0].getAttribute('id');
 	
@@ -22,17 +23,17 @@ const sendScore = (name, time) => {
 		}
 	}
 
-	fetch('/maps/' + id + '/scores', {
+	return fetch('/maps/' + id + '/scores', {
+		headers: {
+			'Accept': 'application/json',
+			'Content-Type': 'application/json',
+			'X-CSRF-Token': Rails.csrfToken(),
+			'X-Requested-With': 'xhrRequest'
+		},
 		method: 'POST',
 		body: JSON.stringify(data),
-		headers: {
-			'Content-Type': 'application/json',
-			'X-CSRF-Token': document.head.querySelector("[name=csrf-token]").content,
-			'X-Requested-With': 'XMLHttpRequest'
-		},
 		credentials: 'same-origin'
 	})
-	.catch(error => console.log(error));
 }
 
 const createModal = () => {
@@ -131,9 +132,9 @@ document.addEventListener("turbolinks:load", () => {
 			display.appendChild(createTargetCircle(event));
 		});
 
-		display.addEventListener('mouseup', () => {			
+		display.addEventListener('mouseup', () => {	
 			display.removeChild(removeTargetCircle());
-		}, { once: true });
+		});
 
 		target.addEventListener('click', () => {
 			endTime = Date.now();
@@ -146,10 +147,13 @@ document.addEventListener("turbolinks:load", () => {
 				const id = img[0].getAttribute('id');
 				const submit = document.querySelector('input[type=submit]');
 				const name = document.querySelector('input[type=text]');
+				name.focus();
 	
 				submit.addEventListener('click', () => {
-					sendScore(name.value, score.toFixed(2));
-					window.location.href = '/maps/' + id + '/scores';
+					sendScore(name.value, score.toFixed(2))
+						.then(() => {
+							window.location.assign('/maps/' + id + '/scores')
+						})					
 				})
 			}
 		});

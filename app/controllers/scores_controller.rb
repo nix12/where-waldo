@@ -10,7 +10,6 @@ class ScoresController < ApplicationController
     end
 
     score.save
-    redirect_to maps_url
   end
   
   def index
