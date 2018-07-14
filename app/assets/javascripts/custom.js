@@ -129,11 +129,13 @@ document.addEventListener("turbolinks:load", () => {
 		let endTime;
 
 		display.addEventListener('mousedown', (event) => {
-			display.appendChild(createTargetCircle(event));
-		});
-
-		display.addEventListener('mouseup', () => {	
-			display.removeChild(removeTargetCircle());
+			if (document.getElementById('targetCircle')) {
+				display.addEventListener('mouseup', () => {
+					display.removeChild(removeTargetCircle());
+				})					
+			} else {
+				display.appendChild(createTargetCircle(event));
+			}
 		});
 
 		target.addEventListener('click', () => {
