@@ -12,7 +12,6 @@ const removeBackdrop = () => {
 }
 
 const sendScore = (name, time) => {
-	// const xhr = new XMLHttpRequest();
 	const img = document.getElementsByTagName('img');
 	const id = img[0].getAttribute('id');
 	
@@ -70,18 +69,20 @@ const removeModal = () => {
 }
 
 const createTargetCircle = (event) => {
-	const targetCircle = document.createElement('div');
+	const targetCircle = document.getElementById('targetCircle');
 	const display = document.querySelector('.display');
 	targetCircle.setAttribute('id', 'targetCircle');
 	targetCircle.style.position = 'absolute';
-	targetCircle.style.left = (event.clientX - (display.offsetLeft + 25)) + 'px';
-	targetCircle.style.top = (event.clientY - (display.offsetTop + 25)) + 'px';
+	targetCircle.style.left = (event.clientX -= (display.offsetLeft + 25)) + 'px';
+	targetCircle.style.top = (event.clientY -= (display.offsetTop + 25)) + 'px';
+	targetCircle.style.display = 'none';
 
 	return targetCircle;
 }
 
 const removeTargetCircle = () => {
 	const targetCircle = document.getElementById('targetCircle');
+	targetCircle.style.display = 'inline-block';
 	
 	return targetCircle;
 }
@@ -117,25 +118,39 @@ const calculateTime = (startTime, endTime) => {
 
 	modal.appendChild(score);
 
-	return seconds;
+	return seconds ;
 }
 
 document.addEventListener("turbolinks:load", () => {
 	const display = document.querySelector('.display');
+	// const targetCircle = document.createElement('div');
+	// targetCircle.setAttribute('id', 'targetCircle');
+	// display.appendChild(targetCircle);
 
 	if (display) {
 		const target = display.appendChild(createTarget());
 		let startTime = Date.now();
 		let endTime;
 
-		display.addEventListener('mousedown', (event) => {
-			if (document.getElementById('targetCircle')) {
-				display.addEventListener('mouseup', () => {
-					display.removeChild(removeTargetCircle());
-				})					
-			} else {
-				display.appendChild(createTargetCircle(event));
-			}
+		display.addEventListener('mousemove', (event) => {
+			// const targetCircle = document.getElementById('targetCircle');
+			createTargetCircle(event);
+
+			// display.addEventListener('click', (event) => {
+			// 	if (targetCircle.style.visibility === 'visible') {
+			// 		removeTargetCircle();
+			// 	} else {
+			// 		createTargetCircle(event);
+			// 	}
+			// })
+
+			display.addEventListener('mousedown', (event) => {
+				createTargetCircle(event);
+			})
+
+			display.addEventListener('mouseup', () => {
+				removeTargetCircle();
+			})
 		});
 
 		target.addEventListener('click', () => {
